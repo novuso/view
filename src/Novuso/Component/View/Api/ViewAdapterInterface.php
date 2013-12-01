@@ -22,7 +22,7 @@ interface ViewAdapterInterface
      * Sets an optional template file extension
      *
      * @access public
-     * @param  string|null $extension The template file extension or null requires the template include any extension
+     * @param  string|null $extension The template file extension; null requires the template include extension
      * @return void
      */
     public function setExtension($extension);
@@ -31,7 +31,7 @@ interface ViewAdapterInterface
      * Sets the context view data
      *
      * @access public
-     * @param  array $data An associated array of data keyed by variable names
+     * @param  array $data An associated array of data; keyed by variable names
      * @return void
      */
     public function setData(array $data);
@@ -49,7 +49,7 @@ interface ViewAdapterInterface
      * Sets the list of template directory paths
      *
      * @access public
-     * @param  array $paths A list of directories to seach for templates; earlier paths should match first
+     * @param  array $paths A list of directories to seach for templates; first paths should have higher match priority
      * @return void
      */
     public function setPaths(array $paths);
@@ -67,7 +67,7 @@ interface ViewAdapterInterface
      * Sets the view helpers
      *
      * @access public
-     * @param  array $helpers An associated array of view helpers keyed by helper name
+     * @param  array $helpers An associated array of view helpers; keyed by helper name
      * @return void
      */
     public function setHelpers(array $helpers);

@@ -103,4 +103,149 @@ class ViewManager implements ViewManagerInterface
 
         return $this->adapter;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTemplate($template)
+    {
+        $this->template = $template;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTemplate()
+    {
+        return $this->template;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function templateExists()
+    {
+        if (empty($this->paths) || !isset($this->template)) {
+            return false;
+        }
+        foreach ($this->getPaths() as $path) {
+            $file = $path.DIRECTORY_SEPARATOR.$this->getTemplate().$this->getExtension();
+            if (is_file($file) && is_readable($file)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setExtension($extension)
+    {
+        if (null !== $extension) {
+            $extension = '.'.ltrim($extension, '.');
+        }
+        $this->extension = $extension;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getExtension()
+    {
+        return $this->extension;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function replacePaths(array $paths)
+    {
+        $this->paths = [];
+        foreach ($paths as $path) {
+            $this->addPaths($paths);
+        }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addPaths(array $paths, $prepend = false)
+    {
+        if ($prepend) {
+            $paths = array_reverse($paths);
+            foreach ($paths as $path) {
+                $this->addPath($path, true);
+            }
+        } else {
+            foreach ($paths as $path) {
+                $this->addPath($path);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addPath($path, $prepend = false)
+    {
+        $path = (string) $path;
+        if (!in_array($path, $this->paths)) {
+            if ($prepend) {
+                array_unshift($this->paths, $path);
+            } else {
+                $this->paths[] = $path;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPaths()
+    {
+        return $this->paths;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasPath($path)
+    {
+        return in_array($path, $this->paths, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removePath($path)
+    {
+        $key = array_search($path, $this->paths, true);
+        if (false !== $key) {
+            unset($this->paths[$key]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function clearPaths()
+    {
+        $this->paths = [];
+
+        return $this;
+    }
 }

@@ -12,6 +12,7 @@
         "apigen/apigen": "2.8.*",
         "satooshi/php-coveralls": "dev-master",
         "mayflower/php-codebrowser": "1.0.*",
+        "mikey179/vfsStream": "1.2.*",
         "mockery/mockery": "0.8.*",
         "pdepend/pdepend": "1.1.*",
         "pear/console_commandline": "dev-trunk",
