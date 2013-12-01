@@ -9,7 +9,7 @@ View component for the Novuso Framework
 
 The recommended installation method is to use [Composer](http://getcomposer.org/)
 
-Add the following to your composer.json file's `require` section and run the
+Add the following to the `require` section of your composer.json file and run the
 [update](http://getcomposer.org/doc/03-cli.md#update) command:
 
     "novuso/view": "dev-master"

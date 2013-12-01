@@ -13,13 +13,13 @@
         <echo msg="Build complete for version: ${version}" />
     </target>
 
-    <target name="build.ci" description="Default build process for continuous integration server"
-            depends="prepare,qa.ci,docs">
+    <target name="integration" description="Integration testing build process"
+            depends="prepare,qa.int,docs">
         <echo msg="Build complete for version: ${version}" />
     </target>
 
-    <target name="integration.ci" description="Integration build process for continuous integration server"
-            depends="prepare,qa.int,docs">
+    <target name="build.ci" description="Build process for continuous integration server"
+            depends="prepare,qa.ci,docs">
         <echo msg="Build complete for version: ${version}" />
     </target>
 
@@ -73,18 +73,18 @@
 
     <!-- QA Tools -->
 
-    <target name="qa" description="Runs quality assurance tools on source code"
+    <target name="qa" description="Runs unit testing and qa tools on source code"
             depends="phplint,phpunit,phpcs,phpmd,phpcpd,phpcb">
         <echo msg="Quality assurance process complete" />
     </target>
 
-    <target name="qa.ci" description="Runs quality assurance tools on source code for CI server"
-            depends="phplint,phpunit,phpcs.ci,phpmd.ci,phploc,pdepend,phpcpd,phpcb">
+    <target name="qa.int" description="Runs integration testing and qa tools on source code"
+            depends="phplint,phpunit.int,phpcs,phpmd,phpcb">
         <echo msg="Quality assurance process complete" />
     </target>
 
-    <target name="qa.int" description="Runs integration qa tools on source code for CI server"
-            depends="phplint,phpunit.int,phpcs.ci,phpmd.ci,phploc,pdepend,phpcpd,phpcb">
+    <target name="qa.ci" description="Runs quality assurance tools on source code for CI server"
+            depends="phplint,phpunit.int,phpunit,phpcs.ci,phpmd.ci,phploc,pdepend,phpcpd,phpcb">
         <echo msg="Quality assurance process complete" />
     </target>
 

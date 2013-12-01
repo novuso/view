@@ -11,6 +11,7 @@ namespace Novuso\UnitTest\View;
 
 use PHPUnit_Framework_TestCase;
 use Novuso\Component\View\ViewManager;
+use Mockery;
 
 class ViewManagerTest extends PHPUnit_Framework_TestCase
 {
@@ -27,5 +28,23 @@ class ViewManagerTest extends PHPUnit_Framework_TestCase
             'Novuso\Component\View\Api\ViewManagerInterface',
             $this->viewManager
         );
+    }
+
+    public function testAdapterCanBeChanged()
+    {
+        $adapter1 = Mockery::mock('Novuso\Component\View\Api\ViewAdapterInterface');
+        $adapter2 = Mockery::mock('Novuso\Component\View\Api\ViewAdapterInterface');
+        $this->viewManager->setAdapter($adapter1);
+        $this->assertSame($adapter1, $this->viewManager->getAdapter());
+        $this->viewManager->setAdapter($adapter2);
+        $this->assertSame($adapter2, $this->viewManager->getAdapter());
+    }
+
+    /**
+     * @expectedException Novuso\Component\View\Exception\UndefinedAdapterException
+     */
+    public function testGetAdapterThrowsExceptionWhenUndefined()
+    {
+        $this->viewManager->getAdapter();
     }
 }
