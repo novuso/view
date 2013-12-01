@@ -1,0 +1,13 @@
+/bin/
+/build/api/
+/build/browser/
+/build/coverage/
+/build/logs/
+/build/pdepend/
+/vendor/
+/nbproject/
+/.idea/
+/*.sublime-project
+/*.sublime-workspace
+/composer.phar
+/composer.lock

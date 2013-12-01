@@ -1,0 +1,39 @@
+{
+    "name": "novuso/view",
+    "description": "View component for the Novuso Framework",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=5.4.0",
+        "mustache/mustache": "2.4.*",
+        "twig/twig": "1.14.*"
+    },
+    "require-dev": {
+        "apigen/apigen": "2.8.*",
+        "satooshi/php-coveralls": "dev-master",
+        "mayflower/php-codebrowser": "1.0.*",
+        "mockery/mockery": "0.8.*",
+        "pdepend/pdepend": "1.1.*",
+        "pear/console_commandline": "dev-trunk",
+        "pear/pear_exception": "dev-master",
+        "pear/log": "dev-master",
+        "phing/phing": "2.6.*",
+        "phploc/phploc": "2.0.*",
+        "phpmd/phpmd": "1.5.*",
+        "phpunit/php-invoker": "1.1.*",
+        "phpunit/phpunit": "3.7.*",
+        "sebastian/phpcpd": "1.4.*",
+        "squizlabs/php_codesniffer": "1.4.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Novuso\\Component\\View": "src",
+            "Novuso\\IntegrationTest\\View": "tests",
+            "Novuso\\UnitTest\\View": "tests"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "minimum-stability": "stable"
+}

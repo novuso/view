@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit
+    backupGlobals="false"
+    backupStaticAttributes="false"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    processIsolation="false"
+    stopOnFailure="false"
+    syntaxCheck="false"
+    bootstrap="bootstrap.php" >
+    <testsuites>
+        <testsuite name="Novuso Service IntegrationTest Suite">
+            <directory>../tests/Novuso/IntegrationTest</directory>
+        </testsuite>
+    </testsuites>
+    <listeners>
+        <listener class="\Mockery\Adapter\Phpunit\TestListener"></listener>
+    </listeners>
+    <filter>
+        <whitelist>
+            <directory>../src</directory>
+            <exclude>
+                <directory>../src/Novuso/Component/*/Resources</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-html" target="coverage" title="Coverage Report"
+             charset="UTF-8" yui="true" highlight="true"
+             lowUpperBound="35" highLowerBound="70"/>
+        <log type="coverage-clover" target="logs/clover.xml" />
+        <log type="junit" target="logs/junit.xml" logIncompleteSkipped="false" />
+    </logging>
+</phpunit>

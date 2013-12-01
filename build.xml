@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Novuso View" description="Novuso View build process" default="build">
+
+    <!-- Properties -->
+
+    <property file="build/build.properties" />
+
+    <!-- Main Targets -->
+
+    <target name="build" description="Default build process for development"
+            depends="update,prepare,qa,docs">
+        <echo msg="Build complete for version: ${version}" />
+    </target>
+
+    <target name="build.ci" description="Default build process for continuous integration server"
+            depends="prepare,qa.ci,docs">
+        <echo msg="Build complete for version: ${version}" />
+    </target>
+
+    <target name="integration.ci" description="Integration build process for continuous integration server"
+            depends="prepare,qa.int,docs">
+        <echo msg="Build complete for version: ${version}" />
+    </target>
+
+    <!-- Dependencies -->
+
+    <target name="update" description="Updates project dependencies for development"
+            depends="composer.update">
+        <echo msg="Project dependencies updated" />
+    </target>
+
+    <target name="composer.update" description="Updates Composer dependencies for development">
+        <exec executable="php" passthru="true">
+            <arg value="composer.phar" />
+            <arg value="self-update" />
+        </exec>
+        <exec executable="php" passthru="true">
+            <arg value="composer.phar" />
+            <arg value="update" />
+            <arg value="--prefer-dist" />
+        </exec>
+    </target>
+
+    <!-- PHP Folder Setup -->
+
+    <target name="clean" description="Removes generated build directories"
+            depends="clean.artifact.directories">
+        <echo msg="Removed generated build directories" />
+    </target>
+
+    <target name="prepare" description="Prepares project directories for build"
+            depends="prepare.artifact.directories">
+        <echo msg="Project directories prepared for build" />
+    </target>
+
+    <target name="clean.artifact.directories" description="Removes generated build artifact directories">
+        <delete dir="${api.dir}" />
+        <delete dir="${coverage.dir}" />
+        <delete dir="${phpcb.dir}" />
+        <delete dir="${pdepend.dir}" />
+        <delete dir="${logs.dir}" />
+    </target>
+
+    <target name="prepare.artifact.directories" description="Prepares directories for build artifacts"
+            depends="clean.artifact.directories">
+        <mkdir dir="${api.dir}" />
+        <mkdir dir="${coverage.dir}" />
+        <mkdir dir="${phpcb.dir}" />
+        <mkdir dir="${pdepend.dir}" />
+        <mkdir dir="${logs.dir}" />
+    </target>
+
+    <!-- QA Tools -->
+
+    <target name="qa" description="Runs quality assurance tools on source code"
+            depends="phplint,phpunit,phpcs,phpmd,phpcpd,phpcb">
+        <echo msg="Quality assurance process complete" />
+    </target>
+
+    <target name="qa.ci" description="Runs quality assurance tools on source code for CI server"
+            depends="phplint,phpunit,phpcs.ci,phpmd.ci,phploc,pdepend,phpcpd,phpcb">
+        <echo msg="Quality assurance process complete" />
+    </target>
+
+    <target name="qa.int" description="Runs integration qa tools on source code for CI server"
+            depends="phplint,phpunit.int,phpcs.ci,phpmd.ci,phploc,pdepend,phpcpd,phpcb">
+        <echo msg="Quality assurance process complete" />
+    </target>
+
+    <target name="phplint" description="Performs syntax check of PHP sourcecode files">
+        <echo msg="Performing syntax check of PHP sourcecode files" />
+        <apply executable="php" failonerror="true">
+            <arg value="-l" />
+            <fileset dir="${src.dir}">
+                <include name="**/*.php" />
+                <exclude name="**/Resources/**" />
+            </fileset>
+        </apply>
+        <echo msg="PHP sourcecode files passed syntax check" />
+    </target>
+
+    <target name="phpunit" description="Runs unit tests with PHPUnit">
+        <echo msg="Running PHPUnit unit test suite" />
+        <exec executable="php" passthru="true" returnProperty="phpunit.return">
+            <arg path="${phpunit.bin}" />
+            <arg value="-c" />
+            <arg path="${phpunit.conf}" />
+        </exec>
+        <if>
+            <equals arg1="${phpunit.return}" arg2="0"/>
+            <then>
+                <echo msg="Tests passed" />
+            </then>
+            <else>
+                <fail msg="Test failed" />
+            </else>
+        </if>
+    </target>
+
+    <target name="phpunit.int" description="Runs integration tests with PHPUnit">
+        <echo msg="Running PHPUnit integration test suite" />
+        <exec executable="php" passthru="true" returnProperty="phpunit.return">
+            <arg path="${phpunit.bin}" />
+            <arg value="-c" />
+            <arg path="${phpint.conf}" />
+        </exec>
+        <if>
+            <equals arg1="${phpunit.return}" arg2="0"/>
+            <then>
+                <echo msg="Tests passed" />
+            </then>
+            <else>
+                <fail msg="Test failed" />
+            </else>
+        </if>
+    </target>
+
+    <target name="phpcs"
+            description="Finds coding standards violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
+        <echo msg="Finding coding standards violations" />
+        <exec executable="php" passthru="true" returnProperty="phpcs.return">
+            <arg path="${phpcs.bin}" />
+            <arg value="--standard=${phpcs.conf}" />
+            <arg value="--ignore=*/Resources/*" />
+            <arg path="${src.dir}" />
+        </exec>
+        <if>
+            <equals arg1="${phpcs.return}" arg2="0"/>
+            <then>
+                <echo msg="Code standards passed" />
+            </then>
+            <else>
+                <fail msg="Code standards violations" />
+            </else>
+        </if>
+    </target>
+
+    <target name="phpcs.ci"
+            description="Finds coding standards violations using PHP_CodeSniffer creating a log file for the continuous integration server.">
+        <echo msg="Finding coding standards violations" />
+        <exec executable="php" output="/dev/null" passthru="true" returnProperty="phpcs.return">
+            <arg path="${phpcs.bin}" />
+            <arg value="--report=checkstyle" />
+            <arg value="--report-file=${logs.dir}/checkstyle.xml" />
+            <arg value="--standard=${phpcs.conf}" />
+            <arg value="--warning-severity=0" />
+            <arg value="--ignore=*/Resources/*" />
+            <arg path="${src.dir}" />
+        </exec>
+        <if>
+            <equals arg1="${phpcs.return}" arg2="0"/>
+            <then>
+                <echo msg="Code standards passed" />
+            </then>
+            <else>
+                <fail msg="Code standards violations" />
+            </else>
+        </if>
+    </target>
+
+    <target name="phpmd" description="Performs project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
+        <echo msg="Performing project mess detection" />
+        <exec executable="php" passthru="true" returnProperty="phpmd.return">
+            <arg path="${phpmd.bin}" />
+            <arg path="${src.dir}" />
+            <arg value="text" />
+            <arg value="${phpmd.conf}" />
+            <arg value="--exclude" />
+            <arg path="*/Resources/*" />
+        </exec>
+        <if>
+            <equals arg1="${phpmd.return}" arg2="0"/>
+            <then>
+                <echo msg="Project code is clean" />
+            </then>
+            <else>
+                <fail msg="Project mess detected" />
+            </else>
+        </if>
+    </target>
+
+    <target name="phpmd.ci" description="Performs project mess detection using PHPMD creating a log file for the continuous integration server.">
+        <echo msg="Performing project mess detection" />
+        <exec executable="php" passthru="true" returnProperty="phpmd.return">
+            <arg path="${phpmd.bin}" />
+            <arg path="${src.dir}" />
+            <arg value="xml" />
+            <arg value="${phpmd.conf}" />
+            <arg value="--reportfile" />
+            <arg value="${logs.dir}/pmd.xml" />
+            <arg value="--exclude" />
+            <arg path="*/Resources/*" />
+        </exec>
+        <if>
+            <equals arg1="${phpmd.return}" arg2="0"/>
+            <then>
+                <echo msg="Project code is clean" />
+            </then>
+            <else>
+                <fail msg="Project mess detected" />
+            </else>
+        </if>
+    </target>
+
+    <target name="phploc" description="Measures project size and analyze project structure using PHPLOC">
+        <echo msg="Mearsuring project size and analyzing project structure" />
+        <exec executable="php" passthru="true">
+            <arg path="${phploc.bin}" />
+            <arg value="--log-csv" />
+            <arg value="${logs.dir}/phploc.csv" />
+            <arg path="${src.dir}" />
+        </exec>
+    </target>
+
+    <target name="pdepend" description="Calculates software metrics using PHP_Depend">
+        <echo msg="Calculating software metrics" />
+        <exec executable="php" passthru="true">
+            <arg path="${pdepend.bin}" />
+            <arg value="--jdepend-xml=${logs.dir}/jdepend.xml" />
+            <arg value="--jdepend-chart=${pdepend.dir}/dependencies.svg" />
+            <arg value="--overview-pyramid=${pdepend.dir}/overview-pyramid.svg" />
+            <arg path="${src.dir}" />
+        </exec>
+    </target>
+
+    <target name="phpcpd" description="Finds duplicate code using PHPCPD">
+        <echo msg="Finding occurrences duplicated code" />
+        <exec executable="php" passthru="true">
+            <arg path="${phpcpd.bin}" />
+            <arg value="--log-pmd" />
+            <arg value="${logs.dir}/pmd-cpd.xml" />
+            <arg value="--min-lines" />
+            <arg value="10" />
+            <arg value="--min-tokens" />
+            <arg value="140" />
+            <arg value="--exclude" />
+            <arg value="*/Resources/*" />
+            <arg path="${src.dir}" />
+        </exec>
+    </target>
+
+    <target name="phpcb" description="Aggregates tool output with PHP_CodeBrowser">
+        <echo msg="Generating code browser with quality assurance highlighting" />
+        <exec executable="php" passthru="true">
+            <arg path="${phpcb.bin}" />
+            <arg value="--log" />
+            <arg path="${logs.dir}" />
+            <arg value="--source" />
+            <arg path="${src.dir}" />
+            <arg value="--output" />
+            <arg path="${phpcb.dir}" />
+        </exec>
+    </target>
+
+    <!-- Documentation -->
+
+    <target name="docs" description="Generate documention"
+            depends="apigen">
+        <echo msg="Documentation generated" />
+    </target>
+
+    <target name="apigen" description="Generate API documentation using ApiGen">
+        <echo msg="Generating API documentation" />
+        <exec executable="php" passthru="true">
+            <arg path="${apigen.bin}" />
+            <arg value="--config" />
+            <arg path="${apigen.conf}" />
+        </exec>
+    </target>
+
+</project>
