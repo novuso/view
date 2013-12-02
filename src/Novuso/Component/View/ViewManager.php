@@ -147,7 +147,7 @@ class ViewManager implements ViewManagerInterface
      */
     public function setExtension($extension)
     {
-        if (null !== $extension) {
+        if (null !== $extension && '' !== $extension) {
             $extension = '.'.ltrim($extension, '.');
         }
         $this->extension = $extension;
