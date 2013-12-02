@@ -19,6 +19,15 @@ namespace Novuso\Component\View\Api;
 interface ViewAdapterInterface
 {
     /**
+     * Sets the template name
+     *
+     * @access public
+     * @param  string $template The template name
+     * @return void
+     */
+    public function setTemplate($template);
+
+    /**
      * Sets an optional template file extension
      *
      * @access public
@@ -26,24 +35,6 @@ interface ViewAdapterInterface
      * @return void
      */
     public function setExtension($extension);
-
-    /**
-     * Sets the context view data
-     *
-     * @access public
-     * @param  array $data An associated array of data; keyed by variable names
-     * @return void
-     */
-    public function setData(array $data);
-
-    /**
-     * Sets any engine specific options
-     *
-     * @access public
-     * @param  array $options An associated array of engine specific options
-     * @return void
-     */
-    public function setOptions(array $options);
 
     /**
      * Sets the list of template directory paths
@@ -55,13 +46,22 @@ interface ViewAdapterInterface
     public function setPaths(array $paths);
 
     /**
-     * Sets the template name
+     * Sets any engine specific options
      *
      * @access public
-     * @param  string $template The template name
+     * @param  array $options An associated array of engine specific options
      * @return void
      */
-    public function setTemplate($template);
+    public function setOptions(array $options);
+
+    /**
+     * Sets the context view data
+     *
+     * @access public
+     * @param  array $data An associated array of data; keyed by variable names
+     * @return void
+     */
+    public function setData(array $data);
 
     /**
      * Sets the view helpers

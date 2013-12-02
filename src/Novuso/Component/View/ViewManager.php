@@ -80,7 +80,7 @@ class ViewManager implements ViewManagerInterface
      * View helpers
      *
      * @access protected
-     * @var    ViewHelperInterface[]
+     * @var    array
      */
     protected $helpers = [];
 
@@ -452,11 +452,11 @@ class ViewManager implements ViewManagerInterface
         if (!$this->templateExists()) {
             throw new InvalidTemplateException($this->getTemplate().$this->getExtension(), $this->getPaths());
         }
-        $adapter->setExtension($this->getExtension());
-        $adapter->setData($this->getData());
-        $adapter->setOptions($this->getOptions());
-        $adapter->setPaths($this->getPaths());
         $adapter->setTemplate($this->getTemplate());
+        $adapter->setExtension($this->getExtension());
+        $adapter->setPaths($this->getPaths());
+        $adapter->setOptions($this->getOptions());
+        $adapter->setData($this->getData());
         $adapter->setHelpers($this->getHelpers());
         try {
             return $adapter->render();
