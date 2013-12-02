@@ -18,6 +18,17 @@ use LogicException;
  * @copyright Copyright (c) 2013, Novuso. (http://novuso.com)
  * @license   http://opensource.org/licenses/MIT The MIT License
  */
-class InvalidHelperException extends LogicException
+class DuplicateHelperException extends LogicException
 {
+    /**
+     * Constructs DuplicateHelperException
+     *
+     * @access public
+     * @param  string $name The duplicate view helper name
+     */
+    public function __construct($name)
+    {
+        $message = sprintf('Cannot register a view helper with the name "%s". That name is already registered.', $name);
+        parent::__construct($message);
+    }
 }

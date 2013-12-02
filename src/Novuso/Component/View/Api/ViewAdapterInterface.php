@@ -73,7 +73,7 @@ interface ViewAdapterInterface
     public function setHelpers(array $helpers);
 
     /**
-     * Retrieves the rendered view
+     * Renders the view
      *
      * @access public
      * @return string The rendered view

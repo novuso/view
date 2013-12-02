@@ -20,4 +20,13 @@ use LogicException;
  */
 class InvalidTemplateException extends LogicException
 {
+    public function __construct($template, array $paths)
+    {
+        $message = sprintf(
+            'Template "%s" does not exist or is not readable in paths: [%s]',
+            $template,
+            implode(', ', $paths)
+        );
+        parent::__construct($message);
+    }
 }

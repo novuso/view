@@ -20,4 +20,16 @@ use LogicException;
  */
 class UndefinedAdapterException extends LogicException
 {
+    /**
+     * Constructs UndefinedAdapterException
+     *
+     * @access public
+     */
+    public function __construct()
+    {
+        $message = 'The ViewAdapter is not set in the view component. You must pass an instance of '
+            .'"Novuso\\Component\\View\\Api\\ViewAdapterInterface" to the '
+            .'"Novuso\\Component\\View\\ViewManager::setAdapter" method to set the view engine adapter.';
+        parent::__construct($message);
+    }
 }

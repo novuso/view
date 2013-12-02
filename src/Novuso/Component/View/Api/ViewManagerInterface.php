@@ -9,6 +9,12 @@
 
 namespace Novuso\Component\View\Api;
 
+use Novuso\Component\View\Exception\DuplicateHelperException;
+use Novuso\Component\View\Exception\InvalidKeyException;
+use Novuso\Component\View\Exception\InvalidTemplateException;
+use Novuso\Component\View\Exception\UndefinedAdapterException;
+use Novuso\Component\View\Exception\ViewRenderException;
+
 /**
  * ViewManagerInterface is the interface for a view manager
  *
@@ -139,4 +145,188 @@ interface ViewManagerInterface
      * @return ViewManagerInterface This ViewManagerInterface instance
      */
     public function clearPaths();
+
+    /**
+     * Sets view engine options
+     *
+     * @access public
+     * @param  array $options An associated array of view engine options
+     * @return ViewManagerInterface This ViewManagerInterface instance
+     */
+    public function setOptions(array $options);
+
+    /**
+     * Merges view engine options
+     *
+     * @access public
+     * @param  array $options An associated array of view engine options
+     * @return ViewManagerInterface This ViewManagerInterface instance
+     */
+    public function mergeOptions(array $options);
+
+    /**
+     * Sets a view engine option
+     *
+     * @access public
+     * @param  string $key   The option key
+     * @param  mixed  $value The option value
+     * @return ViewManagerInterface This ViewManagerInterface instance
+     */
+    public function setOption($key, $value);
+
+    /**
+     * Retrieves view engine options
+     *
+     * @access public
+     * @return array The associated array of view engine options
+     */
+    public function getOptions();
+
+    /**
+     * Retrieves a single option
+     *
+     * This method may return null for an option value or if the option is not set.
+     * Use the hasOption method to determine whether an option is set or not.
+     *
+     * @access public
+     * @param  string $key The option key
+     * @return The option setting value or null if not set
+     */
+    public function getOption($key);
+
+    /**
+     * Checks if an option is defined
+     *
+     * @access public
+     * @param  string $key The option key
+     * @return boolean True if the option is defined; false otherwise
+     */
+    public function hasOption($key);
+
+    /**
+     * Removes an option
+     *
+     * @access public
+     * @param  string $key The option key
+     * @return ViewManagerInterface This ViewManagerInterface instance
+     */
+    public function removeOption($key);
+
+    /**
+     * Clears view engine options
+     *
+     * @access public
+     * @return ViewManagerInterface This ViewManagerInterface instance
+     */
+    public function clearOptions();
+
+    /**
+     * Sets view data
+     *
+     * @access public
+     * @param  array $data An associated array of view data; keys must follow PHP label name rules:
+     *                     Starts with a letter or underscore, followed by letters, numbers, or underscores
+     * @return ViewManagerInterface This ViewManagerInterface instance
+     * @throws InvalidKeyException If any data keys are not valid
+     */
+    public function setData(array $data);
+
+    /**
+     * Merges view data
+     *
+     * @access public
+     * @param  array $data An associated array of view data; keys must follow PHP label name rules:
+     *                     Starts with a letter or underscore, followed by letters, numbers, or underscores
+     * @return ViewManagerInterface This ViewManagerInterface instance
+     * @throws InvalidKeyException If any data keys are not valid
+     */
+    public function mergeData(array $data);
+
+    /**
+     * Retrieves view data
+     *
+     * @access public
+     * @return array An associated array of view data
+     */
+    public function getData();
+
+    /**
+     * Clears view data
+     *
+     * @access public
+     * @return ViewManagerInterface This ViewManagerInterface instance
+     */
+    public function clearData();
+
+    /**
+     * Sets a data value
+     *
+     * @access public
+     * @param  string $key   The data key; keys must follow PHP label name rules:
+     *                       Starts with a letter or underscore, followed by letters, numbers, or underscores
+     * @param  mixed  $value The data value
+     * @throws InvalidKeyException If the key is not valid
+     */
+    public function set($key, $value);
+
+    /**
+     * Retrieves a data value
+     *
+     * @access public
+     * @param  string $key     The data key; keys must follow PHP label name rules:
+     *                         Starts with a letter or underscore, followed by letters, numbers, or underscores
+     * @param  mixed  $default The value to return if the key is not defined
+     * @return mixed The requested value or $default if not found
+     */
+    public function get($key, $default = null);
+
+    /**
+     * Checks if a data value is defined
+     *
+     * @access public
+     * @param  string $key The data key; keys must follow PHP label name rules:
+     *                     Starts with a letter or underscore, followed by letters, numbers, or underscores
+     * @return boolean True if the key is defined; false otherwise
+     */
+    public function has($key);
+
+    /**
+     * Removes a data value
+     *
+     * @access public
+     * @param  string $key The data key; keys must follow PHP label name rules:
+     *                     Starts with a letter or underscore, followed by letters, numbers, or underscores
+     * @return ViewManagerInterface This ViewManagerInterface instance
+     */
+    public function remove($key);
+
+    /**
+     * Adds a view helper
+     *
+     * @access public
+     * @param  ViewHelperInterface $helper The ViewHelperInterface instance to add
+     * @return ViewManagerInterface This ViewManagerInterface instance
+     * @throws DuplicateHelperException If the view helper name is already registered
+     * @throws InvalidKeyException      If the view helper name is an invalid key
+     */
+    public function addHelper(ViewHelperInterface $helper);
+
+    /**
+     * Retrieves view helpers
+     *
+     * @access public
+     * @return array An associated array of view helpers; keyed by helper name
+     */
+    public function getHelpers();
+
+    /**
+     * Renders the view
+     *
+     * @access public
+     * @return string The rendered view
+     * @throws InvalidTemplateException  If the template cannot be found or read
+     * @throws UndefinedAdapterException If the view engine adapter is not defined
+     * @throws ViewRenderException       If the view engine adapter throws an exception
+     */
+    public function render();
 }

@@ -22,7 +22,8 @@ interface ViewHelperInterface
      * Retrieves the helper name
      *
      * @access public
-     * @return string A name that begins with a letter; may contain letters, numbers, and underscores
+     * @return string A name that follows PHP label name rules:
+     *                Starts with a letter or underscore, followed by letters, numbers, or underscores
      */
     public function getName();
 }
