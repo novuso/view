@@ -9,9 +9,9 @@
 
 namespace Novuso\UnitTest\View\Adapter\Stub;
 
-use Novuso\Component\View\Adapter\BaseAdapter;
+use Novuso\Component\View\Adapter\BaseViewAdapter;
 
-class TestAdapter extends BaseAdapter
+class TestAdapter extends BaseViewAdapter
 {
     public function getTemplate()
     {

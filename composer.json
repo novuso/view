@@ -4,9 +4,7 @@
     "type": "library",
     "license": "MIT",
     "require": {
-        "php": ">=5.4.0",
-        "mustache/mustache": "2.4.*",
-        "twig/twig": "1.14.*"
+        "php": ">=5.4.0"
     },
     "require-dev": {
         "apigen/apigen": "2.8.*",
@@ -14,6 +12,7 @@
         "mayflower/php-codebrowser": "1.0.*",
         "mikey179/vfsStream": "1.2.*",
         "mockery/mockery": "0.8.*",
+        "mustache/mustache": "2.4.*",
         "pdepend/pdepend": "1.1.*",
         "pear/console_commandline": "dev-trunk",
         "pear/pear_exception": "dev-master",
@@ -24,7 +23,12 @@
         "phpunit/php-invoker": "1.1.*",
         "phpunit/phpunit": "3.7.*",
         "sebastian/phpcpd": "1.4.*",
-        "squizlabs/php_codesniffer": "1.4.*"
+        "squizlabs/php_codesniffer": "1.4.*",
+        "twig/twig": "1.14.*"
+    },
+    "suggest": {
+        "mustache/mustache": "To use the mustache template engine adapter",
+        "twig/twig": "To use the twig template engine adapter"
     },
     "autoload": {
         "psr-0": {

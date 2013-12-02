@@ -11,7 +11,14 @@ namespace Novuso\Component\View\Adapter;
 
 use Novuso\Component\View\Api\ViewAdapterInterface;
 
-abstract class BaseAdapter implements ViewAdapterInterface
+/**
+ * BaseViewAdapter is the base class for view adapters
+ *
+ * @author    John Nickell
+ * @copyright Copyright (c) 2013, Novuso. (http://novuso.com)
+ * @license   http://opensource.org/licenses/MIT The MIT License
+ */
+abstract class BaseViewAdapter implements ViewAdapterInterface
 {
     /**
      * Template name

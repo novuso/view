@@ -13,7 +13,7 @@ use PHPUnit_Framework_TestCase;
 use Novuso\UnitTest\View\Adapter\Stub\TestAdapter;
 use Mockery;
 
-class BaseAdapterTest extends PHPUnit_Framework_TestCase
+class BaseViewAdapterTest extends PHPUnit_Framework_TestCase
 {
     protected $adapter;
 
