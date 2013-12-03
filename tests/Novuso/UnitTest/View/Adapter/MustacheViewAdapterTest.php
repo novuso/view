@@ -57,7 +57,7 @@ EOF;
 
     public function testRenderHelpersInTemplate()
     {
-        $test = <<<EOF
+        $index = <<<EOF
 {{{ layout.doctype }}}
 <html lang="{{ lang }}">
 <head>
@@ -69,11 +69,11 @@ EOF;
 </html>
 EOF;
         $this->filesystem = vfsStream::create([
-            'test.html' => $test
+            'index.html' => $index
         ]);
         $layoutHelper = Mockery::mock('Novuso\Component\View\Api\ViewHelperInterface');
         $layoutHelper->doctype = '<!DOCTYPE html>';
-        $this->adapter->setTemplate('test');
+        $this->adapter->setTemplate('index');
         $this->adapter->setExtension('.html');
         $this->adapter->setPaths([vfsStream::url('templates')]);
         $this->adapter->setOptions([

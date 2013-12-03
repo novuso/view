@@ -38,6 +38,14 @@ class MustacheFileLoader implements Mustache_Loader
     protected $extension;
 
     /**
+     * Cached templates
+     *
+     * @access protected
+     * @var    array
+     */
+    protected $templates = [];
+
+    /**
      * Constructs MustacheFileLoader
      *
      * @access public
@@ -63,7 +71,11 @@ class MustacheFileLoader implements Mustache_Loader
         foreach ($this->paths as $path) {
             $file = $path.DIRECTORY_SEPARATOR.$fileName;
             if (is_file($file) && is_readable($file)) {
-                return file_get_contents($file);
+                if (!isset($this->templates[$file])) {
+                    $this->templates[$file] = file_get_contents($file);
+                }
+
+                return $this->templates[$file];
             }
         }
         $message = sprintf($fileName.' >> paths: [%s]', implode(', ', $this->paths));
