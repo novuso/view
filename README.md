@@ -12,8 +12,14 @@ The recommended installation method is to use [Composer](http://getcomposer.org/
 Add the following to the `require` section of your composer.json file and run the
 [update](http://getcomposer.org/doc/03-cli.md#update) command:
 
-    "novuso/view": "dev-master"
+    "novuso/view": "~0.1"
 
-## Usage
+## Build Process
 
-This component is in early development and not recommended for general use at this time.
+To install dependencies for development:
+
+    php build/phing install
+
+To run the default build process:
+
+    php build/phing
