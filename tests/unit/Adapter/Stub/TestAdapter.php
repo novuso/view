@@ -7,7 +7,7 @@
  * @license   http://opensource.org/licenses/MIT The MIT License
  */
 
-namespace Novuso\UnitTest\View\Adapter\Stub;
+namespace Novuso\Test\Unit\View\Adapter\Stub;
 
 use Novuso\Component\View\Adapter\BaseViewAdapter;
 

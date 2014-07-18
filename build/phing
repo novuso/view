@@ -1,0 +1,25 @@
+#!/usr/bin/env php
+<?php
+/**
+ * This file is part of the Novuso Framework
+ *
+ * @author    John Nickell
+ * @copyright Copyright (c) 2013-2014, Novuso. (http://novuso.com)
+ * @license   http://opensource.org/licenses/MIT The MIT License
+ */
+
+$root = realpath(__DIR__.'/..');
+$phing = $root.'/vendor/bin/phing';
+
+chdir($root);
+
+if (!file_exists($phing)) {
+    $composer = $root.'/composer.phar';
+    if (!file_exists($composer)) {
+        passthru('curl -sS https://getcomposer.org/installer | php');
+    }
+    passthru('php composer.phar install --no-dev --prefer-dist');
+    unlink($root.'/composer.lock');
+}
+
+require_once $phing;

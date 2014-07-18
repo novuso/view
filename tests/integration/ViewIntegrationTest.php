@@ -7,7 +7,7 @@
  * @license   http://opensource.org/licenses/MIT The MIT License
  */
 
-namespace Novuso\UnitTest\View;
+namespace Novuso\Test\Integration\View;
 
 use PHPUnit_Framework_TestCase;
 use Novuso\Component\View\ViewManager;

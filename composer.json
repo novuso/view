@@ -4,41 +4,32 @@
     "type": "library",
     "license": "MIT",
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.4.0",
+        "phing/phing": "2.8.*"
     },
     "require-dev": {
-        "apigen/apigen": "2.8.*",
         "satooshi/php-coveralls": "dev-master",
-        "mayflower/php-codebrowser": "1.0.*",
         "mikey179/vfsStream": "1.2.*",
-        "mockery/mockery": "0.8.*",
-        "mustache/mustache": "2.4.*",
-        "pdepend/pdepend": "1.1.*",
-        "pear/console_commandline": "dev-trunk",
-        "pear/pear_exception": "dev-master",
-        "pear/log": "dev-master",
-        "phing/phing": "2.6.*",
+        "mockery/mockery": "0.9.*",
+        "mustache/mustache": "2.6.*",
+        "pdepend/pdepend": "2.0.*",
         "phploc/phploc": "2.0.*",
-        "phpmd/phpmd": "1.5.*",
-        "phpunit/php-invoker": "1.1.*",
-        "phpunit/phpunit": "3.7.*",
-        "sebastian/phpcpd": "1.4.*",
-        "squizlabs/php_codesniffer": "1.4.*",
-        "twig/twig": "1.14.*"
+        "phpmd/phpmd": "2.0.*",
+        "phpunit/phpunit": "4.1.*",
+        "sebastian/phpcpd": "2.0.*",
+        "squizlabs/php_codesniffer": "1.5.*",
+        "twig/twig": "1.16.*"
     },
     "suggest": {
         "mustache/mustache": "To use the mustache template engine adapter",
         "twig/twig": "To use the twig template engine adapter"
     },
     "autoload": {
-        "psr-0": {
-            "Novuso\\Component\\View": "src",
-            "Novuso\\IntegrationTest\\View": "tests",
-            "Novuso\\UnitTest\\View": "tests"
+        "psr-4": {
+            "Novuso\\Component\\View\\": "src",
+            "Novuso\\Test\\Integration\\View\\": "tests/integration",
+            "Novuso\\Test\\Unit\\View\\": "tests/unit"
         }
-    },
-    "config": {
-        "bin-dir": "bin"
     },
     "minimum-stability": "stable"
 }
